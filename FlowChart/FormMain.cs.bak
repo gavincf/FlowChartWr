@@ -336,6 +336,9 @@ namespace FlowChart
 
         }
 				
+				void adde newforgit(void){
+				
+				}
         /*
         #region//事件处理程序
         static void newform1_paint(object sender, PaintEventArgs e)
