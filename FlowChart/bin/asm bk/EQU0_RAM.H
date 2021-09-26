@@ -1,0 +1,64 @@
+;USER_FLAG20 DS	1
+;.7 = 0/1: SPEECH / EQU
+;.6 = 0/1: normal eqution / EVT driver equation
+	
+.IF ( C_EQU0_FLAG_EN .EQ. 1 )
+EQU0_FLAG DS	1
+;
+;.0=1:detect SPCH1 enable
+;.1=1:
+;.2=1:
+;.3=1:
+;.
+.ENDIF
+;
+R_EQU_NO	DS	1
+;R_EQU_NO_BK	DS	1 ; different with last time
+R_EQU_DATA_IDX DS	1
+;0FFH: end idx:not read table
+;
+.IF ( C_EQU0_BUF_EN .EQ. 1 )
+EQU0_IDX	DS	1
+EQU0_BUF	DS	16
+.ENDIF
+
+R_EQU_NEXT	DS	1;for next EQU/GROUP after current EQU END
+
+EQU0_DLYCNT DS	2
+
+.IF ( C_EQU0BG1_EN .EQ. 1)
+EQU0BG1_DLYCNT DS	2
+EQU0BG1_DLYCNT_IDX	DS	1
+.ENDIF
+.IF ( C_EQU0BG2_EN .EQ. 1)
+EQU0BG2_DLYCNT DS	2
+EQU0BG2_DLYCNT_IDX	DS	1
+.ENDIF
+
+;.IF (  C_EQU0_EVT_EN  .EQ. 1)
+EQU_EVT_EN_FG	DS	1
+;.7: global enable; enable/disable;C_EQU_EVT_EN1_BIT
+;.6=1: C_EQU_EVT_WP1_PATTEND
+;.5=1: C_EQU_EVT_MOUTH_R
+EQU_EVT_OV_FG	DS	1
+;set EVT trig flag
+;.7: 
+;.6=1: C_EQU_EVT_WP1_PATTEND
+;.5=1: C_EQU_EVT_MOUTH_R
+;.ENDIF
+
+
+HANGOUT_PERCENT_FG DS	1
+;100%
+;.1:.0=  ; for handout mode
+;0:NO animation
+;1:blink
+;2:wiggle
+;3:blink
+
+
+FEEDING_PERCENT_FG DS	1
+HAND_PERCENT_FG DS	1
+DURING_ROCK_PERCENT_FG	DS	1
+AFTER_ROCK_PERCENT_FG	DS	1
+

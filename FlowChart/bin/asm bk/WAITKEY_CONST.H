@@ -1,0 +1,103 @@
+;=========================================================================
+; CONST
+;=========================================================================
+
+;=======================================
+;	<< WAITKEY_CONST.ASM >>
+;===========================================
+
+C_DLYCNT0_ENABLE	EQU	1
+C_DLYCNT1_ENABLE	EQU	1
+C_DLYCNT2_ENABLE	EQU	0
+C_DLYCNT3_ENABLE	EQU	0
+C_DLYCNT4_ENABLE	EQU	0
+C_DLYCNT5_ENABLE	EQU	0
+
+;
+
+B_USER_MS1_BUSY	EQU	C_BIT2 ; midi end event in the end of midi
+
+;========================================
+;---------------------------------
+; FLAG_B
+;---------------------------------
+C_CNT0_BIT		EQU	C_BIT0
+C_CNT1_BIT		EQU	C_BIT1
+C_CNT2_BIT		EQU	C_BIT2
+C_CNT3_BIT		EQU	C_BIT3
+
+C_VD_BIT		EQU	C_BIT4
+C_AUTOCNT_BIT	EQU	C_BIT7
+
+;---------------------------------
+; Multi used FLAG_B
+;BIT5
+;BIT6
+;---------------------------------
+C_EQU_NEXT_BIT			EQU	C_BIT5
+C_SWPWM_PATT_BIT			EQU	C_BIT6
+C_WIPER_PATTEND_BIT	EQU	C_BIT6
+
+;---------------------------------
+; FLAG_A
+;---------------------------------
+C_SPCH1_BIT		EQU	C_BIT0
+C_SPCH2_BIT		EQU	C_BIT1
+C_MS1_BIT		EQU	C_BIT2
+C_KEYCH0_BIT	EQU	C_BIT4
+C_KEYCH1_BIT	EQU	C_BIT5
+
+;-------------------------------------
+;;multi used
+;BIT3
+;BIT6
+;BIT7
+;-------------------------------------
+C_SPMD_BIT EQU C_BIT3
+;C_SPCH3_BIT		EQU	C_BIT3
+;C_EVO1_BIT		EQU	C_BIT3
+C_CASI_BIT		EQU	C_BIT3
+C_KEYCH2_BIT	EQU	C_BIT6
+C_KEYCH3_BIT	EQU	C_BIT7
+C_NOTECH0_BIT	EQU	C_BIT6 ;multi used
+C_NOTECH1_BIT	EQU	C_BIT7 ;multi used
+;-------------------------------------
+
+
+;--------------------------
+;USER_FLAG10
+;--------------------------
+;.3:.0
+C_CHK_SPCH1_BIT		EQU	C_BIT0
+C_CHK_SPCH2_BIT		EQU	C_BIT1
+C_CHK_MS1_BIT		EQU	C_BIT2
+;-------------------------------------
+;;multi used
+;BIT3
+;-------------------------------------
+;C_CHK_SPCH3_BIT		EQU	C_BIT3
+;C_CHK_SPMD_BIT	EQU	C_BIT3
+C_CHK_EVO1_BIT	EQU	C_BIT3
+
+	
+;====================================
+C_SKEY0_BIT	EQU	C_BIT0
+C_SKEY1_BIT	EQU	C_BIT1
+C_SKEY2_BIT	EQU	C_BIT2
+C_SKEY3_BIT	EQU	C_BIT3
+C_SKEY4_BIT	EQU	C_BIT4
+C_SKEY5_BIT	EQU	C_BIT5
+C_SKEY6_BIT	EQU	C_BIT6
+C_SKEY7_BIT	EQU	C_BIT7
+C_SKEY8_BIT	EQU	C_BIT0
+C_SKEY9_BIT	EQU	C_BIT1
+C_SKEY10_BIT	EQU	C_BIT2
+C_SKEY11_BIT	EQU	C_BIT3
+C_SKEY12_BIT	EQU	C_BIT4
+C_SKEY13_BIT	EQU	C_BIT5
+C_SKEY14_BIT	EQU	C_BIT6
+C_SKEY15_BIT	EQU	C_BIT7
+
+
+
+C_DRUMLED_LEN	EQU	1000000H-500*100/C_100GAP_FXF15

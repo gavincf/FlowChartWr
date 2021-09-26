@@ -1,0 +1,101 @@
+
+;=====================================
+;	SUBROUTINE,TABLE
+;=======================================
+
+;=======================================
+;check the current EVT status
+;in: A: mask bit :save the detect bit MASK
+;used : REG_EA
+;=======================================
+.IFDEF C_EQU0_EN
+L_CHK_EQU_EVT:
+	LDA	EQU_EVT_EN_FG
+	BIT	#C_EQU_EVT_EN1_BIT
+	BEQ	L_CHK_EQU_EVT_END; invalid
+	AND	EQU_EVT_OV_FG
+	BNE	L_CHK_EQU_EVT_S10 ;PATT NEXT STEP
+	
+L_CHK_EQU_EVT_END:
+	LDA	#0
+	RTS
+L_CHK_EQU_EVT_S10:
+	LDA	#1
+	RTS
+;--------------------------------------------
+;for example:
+;--------------------------------------------
+;------------------------ in 'main loop'
+;M0S1_KEYCH3_WRIST:
+;	M_CLR_KEYCH3_FLAG
+;	
+;	LDA	#C_EQU_EVT_WRIST_F_BIT
+;	BIT	EQU_EVT_EN_FG
+;	BEQ	M0S1_KEYCH0_WRIST_F_S10
+;	TSB	EQU_EVT_OV_FG ;set flag
+;
+;	JSR	L_CHK_EQU_EVT;INPUT A
+;	BEQ	M0S1_KEYCH0_WRIST_F_S10
+;;EVT
+;	JMP	M0S1_EQU_NRL_INT
+;
+;M0S1_KEYCH0_WRIST_F_S10:
+;	JMP	M0S1_CHKFG
+;-------------------------- setting in 'EQU0_USER.ASM'
+;L_PLAY_EQU_EVT:
+;	
+;	INC	R_EQU_DATA_IDX
+;	LDY	R_EQU_DATA_IDX
+;	LDA	(<P0_ADDR),Y
+;	ASL	A
+;	TAX
+;	JMP	(L_PLAY_EQU_EVT_TBL,X)
+;L_PLAY_EQU_EVT_TBL:
+;	DW	L_PLAY_EQU_EVT_WRIST_F
+;
+;L_PLAY_EQU_EVT_WRIST_F_INT:
+;	LDA	#C_EQU_EVT_WRIST_F_BIT+C_EQU_EVT_EN1_BIT
+;	STA	EQU_EVT_EN_FG ; ONLY ONE
+;	
+;	JMP	L_PLAY_EQU_EVT_RET
+
+;-------------------------------------------
+	.IFDEF C_WIPER_EN
+L_CHK_EQU_WIPER: ; in check DP_FLAG_A,DP_FLAG_B
+	M_CHK_EQU_NEXT L_EQU_NEXT
+	M_CHK_WIPER_PATTEND L_WP1_PATTEND
+	LDA	#0
+	RTS
+
+L_EQU_NEXT:
+	M_EQU_NEXT_JMP L_EQU_NRL_NEXT,L_EQU_NRL_NEXT
+
+L_CHKFG_J1:
+	LDA	#1
+	RTS
+
+L_EQU_NRL_NEXT: ;EVT reach
+	JSR	BK0_PLAY_EQU_NEXT
+	BNE	L_CHKFG_J1
+;EQU END
+L_EQU_WP1_PATTEND:
+	LDA	#2
+	RTS
+L_WP1_PATTEND:
+	M_CHK_EQU_WP1_PATTEND_EVT L_EQU_NRL_NEXT,L_EQU_WP1_PATTEND
+	LDA	#1
+	RTS
+	.ENDIF ;C_WIPER_EN
+.ENDIF
+
+
+
+;=========================
+L_CLR_PWOFF_FG:
+	MR_DET_PWOFF_FG
+	BEQ	L_CLR_PWOFF_FG_END
+	MR_CLR_PWOFF_FG
+	
+L_CLR_PWOFF_FG_END:	
+	RTS
+

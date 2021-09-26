@@ -1,0 +1,120 @@
+
+
+
+
+
+
+;=========================================================================
+; CODE0
+;=========================================================================
+
+L_EQU_BUSY_SPCH1MS_2B:
+	CHK_BUSY_CH1;
+	BNE	L_EQU_BUSY_SPCH1MS_2B_S100
+	CHK_BUSY_MS
+	BNE	L_EQU_BUSY_SPCH1MS_2B_S100
+;free
+	LDA	#0
+	RTS
+L_EQU_BUSY_SPCH1MS_2B_S100:
+.IF ( C_SPCH1_NO_2B_EN .EQ. 1)
+	LDA	SPCH1_NO1
+	CMP	REG_HL
+	BNE	L_EQU_BUSY_SPCH1MS_2B_NEQ
+.ENDIF
+	LDA	SPCH1_NO
+	CMP	REG_EA
+	BNE	L_EQU_BUSY_SPCH1MS_2B_NEQ
+	LDA	#1
+	RTS
+L_EQU_BUSY_SPCH1MS_2B_NEQ:
+	LDA	#0
+	RTS	
+
+
+
+
+.IF ( C_SPCH2_ENABLE .EQ. 1)
+L_PLAY_SPCH2:
+
+
+	.IF ( C_AUTOSLEEP_WAITKEY_EN .EQ. 1 )
+	MR_AUTOSLEEP_SPCH2_BUSY
+	.ENDIF
+
+	LDA	SPCH2_NO
+	STA	SOUND_NO
+	BRA	L_PLAY_SP_REAL
+.ENDIF
+L_PLAY_SPCH1:
+
+
+.IF ( C_AUTOSLEEP_WAITKEY_EN .EQ. 1 )
+	MR_AUTOSLEEP_SPCH1_BUSY
+.ENDIF
+
+;
+.IFDEF C_EQU0_EN
+	
+	MR_SET_EQU0_DLYCNT CNT_STOP
+
+	MR_SET_SP_FG
+
+.ENDIF
+
+	LDA	SPCH1_NO
+	STA	SOUND_NO
+	
+L_PLAY_SP_REAL:
+
+.IFDEF C_EXT_LANG_EN
+	LDA	SPCH1_NO1
+	BNE	L_PLAY_SP_S100
+.ENDIF
+	
+	LDA	SOUND_NO
+	BIT	#C_BIT7
+	BNE	L_PLAY_SP_S010
+
+	ASL	A
+	TAX
+	JMP	(L_PLAY_SP_TBL,X)
+L_PLAY_SP_S010:
+	ASL	A
+	TAX
+	JMP	(L_PLAY_SP_TBL2,X)
+
+.IFDEF C_EXT_LANG_EN
+L_PLAY_SP_S100:
+	
+	LDA	SPCH1_NO
+
+	ASL	A
+	TAX
+	JMP	(L2_PLAY_SP_TBL,X)
+.ENDIF
+
+
+L_PLAY_SPCH1_END:
+	MR_CHK_SPCH1_EN
+	RTS
+L_PLAY_SPCH2_END:
+	MR_CHK_SPCH2_EN
+	RTS
+L_PLAY_MS1_END:
+	MR_CHK_MS1_EN
+	RTS
+	
+L_PLAY_SP_TBL2:
+
+;
+;=========================================================================
+; CODE1
+;=========================================================================
+
+L2_PLAY_SP_TBL:
+
+
+;---------------------------------------------
+
+

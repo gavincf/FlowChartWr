@@ -1,0 +1,331 @@
+
+WAITKEY_FXF15_PCC_EQU0 EQU C_TRUE
+.IF(WAITKEY_FXF15_PCC_EQU0.EQ.C_FALSE)
+	JMP	COUNT_EQU0_DLYCNT
+COUNT_EQU0_DLYCNT_RET:
+	.IF ( C_EQU0_FLAG_EN .EQ. 1 )
+	JSR	L_DET_EQU_FLAG
+	.ENDIF
+.ENDIF;WAITKEY_FXF15_PCC_EQU0
+
+
+;=========================
+;	in same bank
+;=========================
+
+C_EQU_ACTION_INT	EQU	0
+
+;========================
+; EVT drive next EQU DATA
+;============================
+;----------------------------------------
+;2 types
+;----------------------
+;1,interrupt
+;----------------------
+;	LDA	#C_EQU_EVT_EVO1_BIT+C_EQU_EVT_EN1_BIT
+;	STA	EQU_EVT_EN_FG ; ONLY ONE
+;----------------------
+;2,status
+;----------------------
+;	LDA	#C_EQU_EVT_EVO1_BIT
+;	STA	EQU_EVT_EN_FG ; ONLY ONE
+;----------------------------------------
+;
+L_PLAY_EQU_GET_EVT:
+	
+	INC	R_EQU_DATA_IDX
+	LDY	R_EQU_DATA_IDX
+	LDA	(<DP_ADDR),Y ;EVT BIT
+	ASL	A
+	TAX
+	JMP	(L_PLAY_EQU_GET_EVT_TBL,X)
+L_PLAY_EQU_GET_EVT_TBL:
+;	DW	L_PLAY_EQU_EVT_SPCH1_INT
+;	DW	L_PLAY_EQU_EVT_EVO1_INT
+;	DW	L_PLAY_EQU_EVT_SWPWM_PATT_INT
+;	DW	L_PLAY_EQU_EVT_CNT1_INT
+
+;L_PLAY_EQU_EVT_SPCH1_INT:
+;	LDA	#C_EQU_EVT_SPCH1_BIT+C_EQU_EVT_EN1_BIT
+;	STA	EQU_EVT_EN_FG ; ONLY ONE
+;	
+;	JMP	L_PLAY_EQU_EVT_RET
+	
+;L_PLAY_EQU_EVT_EVO1_INT:
+;	LDA	#C_EQU_EVT_EVO1_BIT+C_EQU_EVT_EN1_BIT
+;	STA	EQU_EVT_EN_FG ; ONLY ONE
+;	
+;	JMP	L_PLAY_EQU_EVT_RET
+;L_PLAY_EQU_EVT_SWPWM_PATT_INT:
+;	LDA	#C_EQU_EVT_SWPWM_PATTEND_BIT+C_EQU_EVT_EN1_BIT
+;	STA	EQU_EVT_EN_FG ; ONLY ONE
+;	
+;	JMP	L_PLAY_EQU_EVT_RET
+;L_PLAY_EQU_EVT_CNT1_INT:
+;	LDA	#C_EQU_EVT_CNT1_BIT+C_EQU_EVT_EN1_BIT
+;	STA	EQU_EVT_EN_FG ; ONLY ONE
+;	
+;	JMP	L_PLAY_EQU_EVT_RET
+	
+;=============================================
+L_PLAY_EQU_END_USER:
+	MR_SET_EQU0_DLYCNT CNT_STOP
+	
+	MR_EQU_NRL_NEXT
+	MR_SET_SP_FG ;clr EQU FLAG
+
+.IF (  C_EQU0_EVT_EN  .EQ. 1)
+	STZ	EQU_EVT_EN_FG ;clear evt flag
+	STZ	EQU_EVT_OV_FG ;clear evt flag
+.ENDIF
+
+.IF ( C_EQU0_FLAG_EN .EQ. 1 )
+	MR_CHK_EQU0_SPCH1_DIS
+.ENDIF
+	LDA	#0;EQU END
+	RTS
+
+
+
+
+;===================================
+;	EQU_ACTION
+;===================================
+;IDX
+;IN: A
+;not use REG_HL,REG_EA
+;
+L_PLAY_EQU_ACT:
+;=========================================
+;	M_SET_CNT1 CNT_STOP
+;-----------------------------------------
+
+	
+	
+;=========================================
+	LDA	REG_HL
+	AND	#03FH
+	ASL	A
+	TAX
+
+	JMP	(L_PLAY_EQU_ACT_TBL,X)
+L_PLAY_EQU_ACT_TBL:
+	DW	L_PLAY_EQU_ACT0 ;default: nop:no action
+	DW	L_PLAY_EQU_ACT1
+	DW	L_PLAY_EQU_ACT2
+	DW	L_PLAY_EQU_ACT3
+	DW	L_PLAY_EQU_ACT4
+	DW	L_PLAY_EQU_ACT5
+	DW	L_PLAY_EQU_ACT6
+	DW	L_PLAY_EQU_ACT7
+	DW	L_PLAY_EQU_ACT8
+	DW	L_PLAY_EQU_ACT9
+	DW	L_PLAY_EQU_ACT10
+	DW	L_PLAY_EQU_ACT11
+	DW	L_PLAY_EQU_ACT12
+	DW	L_PLAY_EQU_ACT13
+	DW	L_PLAY_EQU_ACT14
+	DW	L_PLAY_EQU_ACT15
+	DW	L_PLAY_EQU_ACT16
+	DW	L_PLAY_EQU_ACT17
+	DW	L_PLAY_EQU_ACT18
+	DW	L_PLAY_EQU_ACT19
+	DW	L_PLAY_EQU_ACT20
+	DW	L_PLAY_EQU_ACT21
+	DW	L_PLAY_EQU_ACT22
+	DW	L_PLAY_EQU_ACT23
+	DW	L_PLAY_EQU_ACT24
+	DW	L_PLAY_EQU_ACT25
+	DW	L_PLAY_EQU_ACT26
+	DW	L_PLAY_EQU_ACT27
+	DW	L_PLAY_EQU_ACT28
+	DW	L_PLAY_EQU_ACT29
+	DW	L_PLAY_EQU_ACT30
+	DW	L_PLAY_EQU_ACT31
+	DW	L_PLAY_EQU_SEL0
+
+	
+;input: REG_HL
+L_PLAY_EQU_ACT0: ; NOP:not stop action for every speech/delay
+	LDA	REG_HL;input data
+	BIT	#C_EQU_EVT_BIT
+	BEQ	L_PLAY_EQU_ACT0_S10;  --- not interrupt action
+;check if last action end
+;	LDA	#C_EQU_EVT_EVO1_BIT+C_EQU_EVT_GLOBAL_BIT
+;	AND	EQU_EVT_EN_FG ; ONLY ONE
+;	CMP	#C_EQU_EVT_EVO1_BIT+C_EQU_EVT_GLOBAL_BIT
+;	BNE	L_PLAY_EQU_ACT0_S10
+;;
+;;check if WIPER END/STOP
+;.IFDEF C_WIPER1_EN
+;	MR_DET_WP1_PATT
+;	BNE	L_PLAY_EQU_ACT0_S10
+;.ENDIF
+;	
+;	LDA	#C_EQU_EVT_EVO1_BIT
+;	TSB	EQU_EVT_OV_FG ; ACTION END
+	
+L_PLAY_EQU_ACT0_S10: ; NOP
+	
+	JMP	L_PLAY_EQU_ACT_RET
+
+
+;================================
+;	action
+;=================================
+
+L_PLAY_EQU_ACT1: ;
+	JMP	L_PLAY_EQU_ACT_RET
+
+L_PLAY_EQU_ACT2: ;
+	JMP	L_PLAY_EQU_ACT_RET
+	
+L_PLAY_EQU_ACT3:
+
+L_PLAY_EQU_ACT4:
+L_PLAY_EQU_ACT5:
+L_PLAY_EQU_ACT6:
+L_PLAY_EQU_ACT7:
+L_PLAY_EQU_ACT8:
+L_PLAY_EQU_ACT9:
+L_PLAY_EQU_ACT10:
+L_PLAY_EQU_ACT11:
+L_PLAY_EQU_ACT12:
+L_PLAY_EQU_ACT13:
+L_PLAY_EQU_ACT14:
+L_PLAY_EQU_ACT15:
+L_PLAY_EQU_ACT16:
+L_PLAY_EQU_ACT17:
+L_PLAY_EQU_ACT18:
+L_PLAY_EQU_ACT19:
+L_PLAY_EQU_ACT20:
+L_PLAY_EQU_ACT21:
+L_PLAY_EQU_ACT22:
+L_PLAY_EQU_ACT23:
+L_PLAY_EQU_ACT24:
+L_PLAY_EQU_ACT25:
+L_PLAY_EQU_ACT26:
+L_PLAY_EQU_ACT27:
+L_PLAY_EQU_ACT28:
+L_PLAY_EQU_ACT29:
+L_PLAY_EQU_ACT30:
+L_PLAY_EQU_ACT31:
+	
+	
+	JMP	L_PLAY_EQU_ACT_RET
+	
+L_PLAY_EQU_SEL0:
+	JMP	L_PLAY_EQU_ACT_RET
+	JMP	L_PLAY_EQU_ACT_NON
+;
+
+
+;=========================================
+L_PLAY_EQU_ACT_NON: ; for sel action non return
+	MR_EQU_NRL_NEXT
+.IF (  C_EQU0_EVT_EN  .EQ. 1)
+	STZ	EQU_EVT_EN_FG ;clr flag
+	STZ	EQU_EVT_OV_FG
+.ENDIF
+	JMP	L_PLAY_EQU_ACT_RET
+;=============================================
+.IF ( C_EQU0BG1_EN .EQ. 1)
+;-------------------------------- EQU END will not stop.
+L_EQU0BG1CNT_USER:
+	LDA	EQU0BG1_DLYCNT_IDX
+	ASL	A
+	TAX
+	JMP	(L_EQU0BG1_CNT_TBL,X)
+L_EQU0BG1_CNT_TBL:
+	DW	L_EQU0BG1_CNT_0
+
+L_EQU0BG1_CNT_0:
+;	MR_MOTOR_OFF
+	
+	JMP	L_EQU0BG1CNT_USER_RET
+.ENDIF ;( C_EQU0_BG1_EN .EQ. 1)
+;=============================================
+.IF ( C_EQU0BG2_EN .EQ. 1)
+L_EQU0BG2CNT_USER:
+	LDA	EQU0BG2_DLYCNT_IDX
+	ASL	A
+	TAX
+	JMP	(L_EQU0BG2_CNT_TBL,X)
+L_EQU0BG2_CNT_TBL:
+	DW	L_EQU0BG2_CNT_0
+
+
+L_EQU0BG2_CNT_0:
+
+	
+	JMP	L_EQU0BG2CNT_USER_RET
+	
+.ENDIF ;( C_EQU0_BG2_EN .EQ. 1)
+
+
+;=================================================
+;------------------------------------
+;REG_EA: SP1CH NO
+;speech intrrupt EQU, action continue
+;------------------------------------
+BK0_SPCH1_TO_EQU_END:
+	MR_DET_EQU_BUSY
+	BEQ	BK0_SPCH1_TO_EQU_END_FREE
+;within EQU
+
+.IFDEF C_WIPER_EN
+	JSR	WIPER_PATT_Q_END;act continue current
+.ENDIF	
+	
+;instead current EQU
+
+	M_SET_BANK L_PLAY_SPCH1
+	JSR	L_PLAY_SPCH1
+;
+;--------------------------------clear EQU cnt
+	MR_SET_EQU0_DLYCNT CNT_STOP
+	
+	MR_EQU_NRL_NEXT;instead of EQU
+	MR_SET_EQU_FG
+
+.IF (  C_EQU0_EVT_EN  .EQ. 1)
+	STZ	EQU_EVT_EN_FG ;clear evt flag
+	STZ	EQU_EVT_OV_FG ;clear evt flag
+.ENDIF
+
+.IFDEF C_WIPER_EN
+	LDA	#0FFH
+	STA	R_WP1_PATT_IDX ;AUTO EQU END
+.ENDIF
+		
+	RTS
+	
+BK0_SPCH1_TO_EQU_END_FREE:
+
+	M_SET_BANK L_PLAY_SPCH1
+	JSR	L_PLAY_SPCH1
+	MR_CHK_SPCH1_DIS
+
+	RTS
+;==============================================
+.IF ( C_EQU0_FLAG_EN .EQ. 1 )
+L_DET_EQU_FLAG:
+
+	MR_DET_EQU0_SPCH1_EN
+	BEQ	L_DET_EQU_FG_S100_J1
+;SPCH1
+	CHK_BUSY_CH1;
+	BNE	L_DET_EQU_FG_S100
+;SPCH1 END
+
+
+	JMP	L_DET_EQU_FG_S100
+	
+L_DET_EQU_FG_S100:
+
+	RTS
+.ENDIF
+
+
+

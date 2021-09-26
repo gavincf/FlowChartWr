@@ -1,0 +1,59 @@
+;====================================================================
+; --- F_GSensor_RAM.asm ---
+;====================================================================
+;
+;
+;
+;
+;
+
+
+;--------------------------------------------------------------------
+; --- RAMs ---
+;--------------------------------------------------------------------
+;
+;-----------------------
+; 16 bytes of temp data
+;R_Gsensor_LastX	DS	1	;these values must be continuous
+;R_Gsensor_TmpX1	DS	1
+;R_Gsensor_TmpX2	DS	1
+;R_Gsensor_TmpX3	DS	1
+;R_Gsensor_LastY	DS	1
+;R_Gsensor_TmpY1	DS	1
+;R_Gsensor_TmpY2	DS	1
+;R_Gsensor_TmpY3	DS	1
+;R_Gsensor_LastZ	DS	1
+;R_Gsensor_TmpZ1	DS	1
+;R_Gsensor_TmpZ2	DS	1
+;R_Gsensor_TmpZ3	DS	1	;these values must be continuous
+;R_Gsensor_LstZ2	DS	1	;use to save and check 3 continuous X,Z below 16
+;R_Gsensor_LstZ3	DS	1
+;R_Gsensor_LstX2	DS	1
+;R_Gsensor_LstX3	DS	1
+;
+;
+;-----------------------
+R_BMA253_pt		DS	2;EQU	R_ZeroPage_Pt1
+R_BMA253_rtn	DS	1;EQU	R_Gsensor_XCurve1
+R_BMA253_Xval	DS	1;EQU	R_Gsensor_XCurve2
+R_BMA253_Yval	DS	1;EQU	R_Gsensor_XCurve3
+R_BMA253_Zval	DS	1;EQU	R_Gsensor_XCurve4
+R_BMA253_Cnt	DS	1;EQU	R_Gsensor_XPoint1
+R_BMA253_Addr	DS	1;EQU	R_Gsensor_XPoint2
+R_BMA253_Data	DS	1;EQU	R_Gsensor_XPoint3
+;
+;-----------------------
+; CANNOT REMOVE
+R_Gsensor_SaveP	DS	1	; G sensor saving pointer
+R_Gsensor_SaveS	DS	1	; G sensor saving Start position
+;
+;-----------------------
+; CANNOT REMOVE BUT THE SIZE CAN BE CHANGE
+C_Gdata_STotal	EQU	32 ;--according to valid ram and gap time of read g-sensor
+R_SaveX_Base	DS	C_Gdata_STotal	; X save
+R_SaveY_Base	DS	C_Gdata_STotal	; Y save
+R_SaveZ_Base	DS	C_Gdata_STotal	; Z save
+;
+;-----------------------
+; --- end --- end --- end --- end --- end --- end --- end --- end ---
+; --- end --- end --- end --- end --- end --- end --- end --- end ---

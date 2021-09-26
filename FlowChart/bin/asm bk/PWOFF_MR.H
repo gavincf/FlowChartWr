@@ -1,0 +1,6 @@
+
+  .ifndef M_RAM_BACKUP
+M_RAM_BACKUP:	.MACRO
+	JSR S_RAM_BACKUP
+.ENDM
+  .endif

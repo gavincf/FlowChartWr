@@ -1,0 +1,79 @@
+
+
+;-------------------------------------
+;-------------------------------------
+;.IF(C_SWPWM_PATT_EN .EQ. 1 )
+;-------------------------------------
+;timer PERIOD * MAX_LEVEL = min PWM_PRERIOD=54*100=5.4ms
+;-------------------------------------
+;PWM freq >=72HZ.@52us*100 ; for UART; 192HZ
+SWPWM_PATT_ST_DIV_TBL: ; for MAX:4 pwms ; ms
+;timer period*max level
+	DB	1;250MS:50->55
+	DB	1;250MS
+	DB	1;250MS
+	DB	1;250MS
+	DB	1;250MS
+
+
+SWPWM_PATT_TBL: ; for max: 4 pwms
+	DW	LED_PATT0;
+	DW	LED_PATT1;
+	DW	LED_PATT2;
+	DW	LED_PATT3;
+	DW	LED_PATT4;
+
+;0FFH:END
+;0FEH:LOOP, H , L(H:L:return point)
+;0FDH:TIMES,CNT, H , L (H:L:return point)
+;0F9H:START LEVEL,LEVEL,X,X
+;0FAH:INC LEVEL TARGET,DIV,LEVEL,ADD VALUE
+;0FCH:DEC LEVEL TARGET,DIV,LEVEL,ADD VALUE
+;other: DATA,div,X,X
+	
+;--function,div,level,add/sub
+LED_PATT0:;@5MS;HIT1
+	DB	0F9H,9,50/5,1;
+	DB	0FAH,9,55/5,1;250MS
+	DB	0FAH,4,80/5,1;500MS
+	DB	0FCH,4,70/5,1;250MS
+	DB	0FEH,0,0
+	
+LED_PATT1:;@5MS;HIT2
+	DB	0F9H,9,50/5,1;
+	DB	0FAH,9,55/5,1;250MS
+	DB	0FAH,4,90/5,1;500MS
+	DB	0FCH,4,70/5,1;250MS
+	DB	0FEH,0,0
+	
+LED_PATT2:;@5MS;HIT3
+	DB	0F9H,9,50/5,1;
+	DB	0FAH,9,55/5,1;250MS
+	DB	0FAH,4,100/5,1;500MS
+	DB	0FCH,4,70/5,1;250MS
+	DB	0FEH,0,0
+
+;div= time / 5/ dif
+LED_PATT3:;@5MS;ACTIVE GLOW;loop
+	DB	0F9H,1,0/5,1;
+	DB	0FAH,5,20,1;500MS
+	DB	C_MAX_LEVEL,100,0,0;01;500MS
+	DB	0FCH,7,10/5,1;500MS
+	DB	10/5,100,0,0;01;500MS
+	DB	0FAH,7,C_MAX_LEVEL,1;500MS
+	DB	0FEH,0,2;LOOP
+
+LED_PATT4:;@5MS;Ultimate
+	DB	0F9H,1,50/5,1;
+	DB	0FCH,1,00,1;250MS
+	DB	000H,92,00,0;500MS
+	DB	0FAH,1,100/5,4;125MS
+	DB	0FCH,2,70/5,1;375MS
+	DB	0FFH
+
+
+
+;.ENDIF ;( C_SWPWM_PATT_EN .EQ. 1 )
+	
+
+

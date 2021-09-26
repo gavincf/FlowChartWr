@@ -1,0 +1,88 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+C_PWON_MODE EQU 00H
+
+
+
+
+
+
+
+
+
+
+SYS_MODE_NO DS 1
+
+
+
+
+
+
+USER_FLAG20 DS 1
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+R_HITTYPE  DS  1
+R_ACCELHIT_FLAG  DS 1
+
+
+ 
+R_FLESHCOUNT DS 1
+R_TURRETCOUNT DS 1
+R_ARMORCOUNT DS 1
+
+
+R_GSENSOR_TMPZ3_SET DS 1
+
+
+R_SWIPE_COUNT DS 1
+ 
+R_SWIPE_FLAG DS 1
+
+
+
+
+
+
+R_SWIPE_FLAG1 DS 1
+
+
+R_SWPWM_PATT_IDX DS 1
+
+R_ACCEHIT_CNT DS 1

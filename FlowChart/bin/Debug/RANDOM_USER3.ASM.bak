@@ -1,0 +1,26 @@
+
+.IF ( C_RANDOM_GP_USED .EQ. 1)
+	
+
+;================================================
+;only for speech random table
+;======================================================
+T_RANDOM_BUF_MAX:
+	DB	C_GP_TYPE_MAX
+
+	
+	
+;===================================
+;used ramdon TABLE
+;===================================
+T_RANDOM_GROUP:
+;only for speech group
+	DW	T_GP_TYPE
+
+T_GP_TYPE:
+	DB	0
+	DB	1
+
+
+
+.ENDIF ; C_RANDOM_GP_USED
